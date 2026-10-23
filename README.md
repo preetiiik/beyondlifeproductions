@@ -1,5 +1,13 @@
 # Beyond Life Productions
 
+## Vercel deployment
+
+This is a static website. `vercel.json` serves the project root without a build step. In Vercel, select the repository directory containing `index.html` as the Root Directory.
+
+Git deployments only include committed files. Commit the HTML pages, CSS files, `script.js`, `assets/`, `.gitignore`, and `vercel.json`, then push to the connected production branch. A repository containing only this README will return a 404 at the home URL.
+
+Use the Other framework preset, no build command, and `.` as the output directory. After deployment, confirm the production domain points to that successful deployment.
+
 A responsive, static multi-page photography website. Open `index.html` or serve this folder with `python -m http.server 8080`. No build step is required.
 
 ## Pages

@@ -1,0 +1,123 @@
+/* Soft, staggered entrance for the photography opening. */
+body:is([data-page="photography.html"],[data-page="films.html"]) .photography-photo-type {
+  transform-origin:center bottom;
+  animation:photoTypeReveal 1.4s cubic-bezier(.22,1,.36,1) both,
+    photoTypeDrift 16s ease-in-out 1.4s infinite alternate;
+}
+body:is([data-page="photography.html"],[data-page="films.html"]) .photography-hero-content > .micro {
+  animation:photoCopyReveal .8s cubic-bezier(.22,1,.36,1) .3s both;
+}
+body:is([data-page="photography.html"],[data-page="films.html"]) .photography-hero-content h1 {
+  animation:photoCopyReveal 1s cubic-bezier(.22,1,.36,1) .45s both;
+}
+body:is([data-page="photography.html"],[data-page="films.html"]) .photography-hero-bottom {
+  animation:photoCopyReveal 1s cubic-bezier(.22,1,.36,1) .65s both;
+}
+@keyframes photoTypeReveal {
+  from {opacity:0;transform:translateY(35px) scale(.97);clip-path:inset(0 0 100% 0)}
+  to {opacity:1;transform:translateY(0) scale(1);clip-path:inset(0)}
+}
+@keyframes photoTypeDrift {
+  from {background-position:40% 30%}
+  to {background-position:60% 65%}
+}
+@keyframes photoCopyReveal {
+  from {opacity:0;transform:translateY(20px)}
+  to {opacity:1;transform:translateY(0)}
+}
+/* Hold the opening in view while scrolling through the photo-filled letters. */
+body:is([data-page="photography.html"],[data-page="films.html"]) .photography-type-hero.has-scroll-zoom {
+  height:170svh;
+  padding:0;
+  position:relative;
+}
+.has-scroll-zoom .photography-hero-card {
+  position:sticky;
+  top:0;
+  height:100svh;
+  max-width:none;
+  padding:40px var(--site-gutter) 20px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  overflow:hidden;
+}
+body:is([data-page="photography.html"],[data-page="films.html"]) .has-scroll-zoom .photography-photo-type {
+  animation:none;
+  flex-shrink:0;
+  transform-origin:50% 50%;
+  transform:none;
+  opacity:var(--love-opacity,1);
+  will-change:transform,opacity;
+}
+.photography-photo-type:has(.love-letter-art) {
+  position:relative;
+  height:clamp(106px,19.3vw,297px);
+  background:none;
+}
+.love-letter-art {display:block;width:100%;height:100%;overflow:hidden}
+.love-letter-art text {
+  font-family:Arial,Helvetica,sans-serif;
+  font-size:350px;
+  font-weight:900;
+  letter-spacing:-22px;
+  stroke:none;
+}
+/* Keep the paper outside the letter mask in its original color. */
+body:is([data-page="photography.html"],[data-page="films.html"]) .photography-photo-type:has(.love-letter-art) {filter:none}
+.love-letter-art > image {filter:none}
+body:is([data-page="photography.html"],[data-page="films.html"]) .has-scroll-zoom .photography-photo-type {
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  padding:0;
+}
+.has-scroll-zoom .love-letter-art {position:absolute;inset:0;width:100%;height:100%}
+.has-scroll-zoom .photography-hero-content {
+  position:absolute;
+  left:var(--site-gutter);
+  right:var(--site-gutter);
+  top:var(--love-copy-top,45%);
+  bottom:auto;
+}
+/* The gallery arrives on the same viewport while the letters recede behind it. */
+body:is([data-page="photography.html"],[data-page="films.html"]) :is(.journal,.films-page).has-love-overlay {
+  position:relative;
+  z-index:2;
+  margin-top:-100svh;
+  min-height:100svh;
+  visibility:var(--gallery-visibility,hidden);
+  background:rgba(240,236,223,var(--gallery-paper,0));
+  transform:translateY(var(--gallery-rise,45px));
+}
+.gallery-motion-enabled .gallery-fade-item {
+  opacity:0;
+  translate:0 24px;
+  transition:opacity .55s ease var(--fade-delay,0ms), translate .7s cubic-bezier(.22,1,.36,1) var(--fade-delay,0ms);
+}
+.gallery-motion-enabled .gallery-fade-item.gallery-visible {
+  opacity:1;
+  translate:0 0;
+}
+body.motion-paused .gallery-fade-item {transition:none}
+@media(prefers-reduced-motion:reduce) {
+  .gallery-motion-enabled .gallery-fade-item {opacity:1;translate:none;transition:none}
+}
+.has-scroll-zoom .photography-hero-content {
+  opacity:var(--love-copy-opacity,1);
+  transform:translateY(var(--love-copy-y,0px));
+}
+@media(max-width:600px) {
+  .has-scroll-zoom .photography-hero-card {padding-top:24px}
+}
+body.motion-paused:is([data-page="photography.html"],[data-page="films.html"]) .photography-photo-type,
+body.motion-paused:is([data-page="photography.html"],[data-page="films.html"]) .photography-hero-content > .micro,
+body.motion-paused:is([data-page="photography.html"],[data-page="films.html"]) .photography-hero-content h1,
+body.motion-paused:is([data-page="photography.html"],[data-page="films.html"]) .photography-hero-bottom {animation-play-state:paused}
+@media(prefers-reduced-motion:reduce) {
+  body:is([data-page="photography.html"],[data-page="films.html"]) .photography-photo-type,
+  body:is([data-page="photography.html"],[data-page="films.html"]) .photography-hero-content > .micro,
+  body:is([data-page="photography.html"],[data-page="films.html"]) .photography-hero-content h1,
+  body:is([data-page="photography.html"],[data-page="films.html"]) .photography-hero-bottom {animation:none}
+}
