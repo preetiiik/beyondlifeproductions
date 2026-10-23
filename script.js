@@ -247,7 +247,7 @@ function selectClientReview(index) {
   testimonialFront.querySelector('.photo-inscription').textContent=review.placeholder?'couple photograph to follow':review.name;
   const quote=testimonialBack.querySelector('.handwritten-quote');
   quote.replaceChildren();
-  review.paragraphs.forEach(text=>{const paragraph=document.createElement('span');paragraph.className='review-paragraph';paragraph.textContent='â€œ'+text+'â€';quote.append(paragraph);});
+  review.paragraphs.forEach(text=>{const paragraph=document.createElement('span');paragraph.className='review-paragraph';paragraph.textContent='\u201c'+text+'\u201d';quote.append(paragraph);});
   testimonialBack.querySelector('.note-signature').textContent=review.name;
   testimonialBack.querySelector('.note-sample').textContent='WORDS FROM OUR COUPLES';
   document.getElementById('testimonialImageNote').textContent=review.placeholder?'Temporary gallery image. Matching photograph for '+review.name+' to be added.':'';
@@ -255,17 +255,18 @@ function selectClientReview(index) {
   requestAnimationFrame(()=>{requestAnimationFrame(()=>{rotator.style.transition='';scheduleTestimonial();});});
 }
 function revealClientReview(button){
+  // Keep the photograph visible for the normal four-second viewing period.
   selectClientReview(Number(button.dataset.review));
-  // Reveal after the photo reset, so hover goes directly to the chosen note.
-  requestAnimationFrame(()=>requestAnimationFrame(()=>{
-    clearTimeout(testimonialTimer);
-    turnTestimonial(true);
-  }));
 }
+
 document.querySelectorAll('[data-review]').forEach(button=>{
   button.addEventListener('click',()=>revealClientReview(button));
-  button.addEventListener('mouseenter',()=>{if(matchMedia('(hover: hover)').matches)revealClientReview(button);});
-  button.addEventListener('focus',()=>revealClientReview(button));
+  button.addEventListener('mouseenter',()=>{
+    if(matchMedia('(hover: hover)').matches && button.getAttribute('aria-pressed')!=='true')revealClientReview(button);
+  });
+  button.addEventListener('focus',()=>{
+    if(button.getAttribute('aria-pressed')!=='true')revealClientReview(button);
+  });
 });
 selectClientReview(0);
 
