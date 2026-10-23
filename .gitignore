@@ -1,0 +1,9 @@
+.codex-preview-tools/
+.preview/
+.vscode/
+.vercel/
+tmp/
+node_modules/
+.env
+.env.*
+!.env.example
